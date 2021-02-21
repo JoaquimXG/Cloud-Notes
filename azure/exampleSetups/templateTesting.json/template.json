@@ -1,0 +1,25 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "cloudInit": {
+      "type": "string"
+    }
+  },
+  "variables": {
+    "cloudInit": "[replace(parameters('cloudInit'),'${gitPass}', 'hd6mlrfnyclckx62xyxvk6dosmgrn4wlafupgwubskdehjxse2wq')]",
+    "customData" : "[base64(variables('cloudInit'))]"
+  },
+  "resources": [
+  ],
+  "outputs": {
+    "cloudInit": {
+      "type": "string",
+      "value": "[variables('cloudInit')]"
+    },
+    "customData": {
+      "type": "string",
+      "value": "[variables('customData')]"
+    }
+  }
+}
