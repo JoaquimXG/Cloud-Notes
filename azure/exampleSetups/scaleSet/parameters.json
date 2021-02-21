@@ -1,0 +1,18 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "suffix": {
+      "value": "uccScaleSet"
+    },
+    "cloudInit": {
+      "value" : "#cloud-config\npackage_upgrade: true\npackages:\n  - apt-transport-https\n  - ca-certificates\n  - curl\n  - gnupg-agent\n  - software-properties-common\n\nwrite_files:\n  - content: |\n      ---\n      version: \"2.1\"\n      services:\n        unifi-controller:\n          image: ghcr.io/linuxserver/unifi-controller\n          container_name: unifi-controller\n          environment:\n            - PUID=1000\n            - PGID=1000\n            - MEM_LIMIT=1024M #optional\n          volumes:\n            - /home/azureuser/uccData:/config\n          ports:\n            - 3478:3478/udp\n            - 10001:10001/udp\n            - 8080:8080\n            - 8443:8443\n            - 1900:1900/udp #optional\n            - 8843:8843 #optional\n            - 8880:8880 #optional\n            - 6789:6789 #optional\n            - 5514:5514/udp #optional\n          restart: unless-stopped\n    path: /home/azureuser/docker-compose.yml\n\n    \nruncmd:\n  - curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /home/azureuser/key.txt\n  - apt-key add /home/azureuser/key.txt\n  - rm /home/azureuser/key.txt\n  - add-apt-repository \"deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable\"\n  - apt-get update -y\n  - apt-get install -y docker-ce docker-ce-cli containerd.io\n  - systemctl start docker\n  - systemctl enable docker\n  - mkdir /home/azureuser/uccData\n  - curl -L \"https://github.com/docker/compose/releases/download/1.28.4/docker-compose-$(uname -s)-$(uname -m)\" -o /usr/local/bin/docker-compose\n  - chmod +x /usr/local/bin/docker-compose\n  - docker-compose --file /home/azureuser/docker-compose.yml up &\n\n\nfinal_message: \"The system is finally up, after $UPTIME seconds\"\n"
+    },
+    "dnsLabelPrefix": {
+      "value": "xjgucc"
+    },
+    "instanceCount": {
+      "value": 1
+    }
+  }
+}

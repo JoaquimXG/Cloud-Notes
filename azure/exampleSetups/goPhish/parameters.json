@@ -1,0 +1,15 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "vmSuffix": {
+      "value": "goPhish"
+    },
+    "dnsLabelPrefix": {
+      "value": "xjggophish"
+    },
+    "cloudInit": {
+      "value": "#cloud-config\npackage_upgrade: true\npackages:\n  - apt-transport-https\n  - ca-certificates\n  - curl\n  - gnupg-agent\n  - software-properties-common\n\nruncmd:\n  - curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /home/azureuser/key.txt\n  - apt-key add /home/azureuser/key.txt\n  - rm /home/azureuser/key.txt\n  - add-apt-repository \"deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable\"\n  - apt-get update -y\n  - apt-get install -y docker-ce docker-ce-cli containerd.io\n  - systemctl start docker\n  - systemctl enable docker\n    #Docker setup complete\n  - docker run -p 8080:8008 -p 3333:3333 gophish/gophish\n\nfinal_message: \"The system is finally up, after $UPTIME seconds\"\n"
+    }
+  }
+}
