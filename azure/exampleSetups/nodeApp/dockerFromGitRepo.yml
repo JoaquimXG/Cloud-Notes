@@ -1,0 +1,27 @@
+#cloud-config
+package_upgrade: true
+packages:
+  - apt-transport-https
+  - ca-certificates
+  - curl
+  - gnupg-agent
+  - software-properties-common
+  - git
+
+runcmd:
+  - curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /home/azureuser/key.txt
+  - apt-key add /home/azureuser/key.txt
+  - rm /home/azureuser/key.txt
+  - add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+  - apt-get update -y
+  - apt-get install -y docker-ce docker-ce-cli containerd.io
+  - systemctl start docker
+  - systemctl enable docker
+    #Docker setup complete
+
+  - git clone https://j.gomez:hd6mlrfnyclckx62xyxvk6dosmgrn4wlafupgwubskdehjxse2wq@dev.azure.com/jgomez0228/jgomez/_git/jgomez podColours
+  - cd podColours
+  - docker build -t pod .
+  - docker run -p 80:80 pod
+
+final_message: "The system is finally up, after $UPTIME seconds"
