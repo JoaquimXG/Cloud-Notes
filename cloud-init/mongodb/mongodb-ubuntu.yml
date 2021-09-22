@@ -1,0 +1,20 @@
+#cloud-config
+package_upgrade: true
+packages:
+  - apt-transport-https
+  - ca-certificates
+  - curl
+  - wget
+  - gnupg-agent
+  - software-properties-common
+
+runcmd:
+    #Setting up MongoDB (Without acces controls)
+  - wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add -
+  - add-apt-repository "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/4.4 multiverse"
+  - apt-get update -y
+  - apt-get install -y mongodb-org
+  - systemctl start mongod
+  - systemctl enable mongod
+
+final_message: "The system is finally up, after $UPTIME seconds"
