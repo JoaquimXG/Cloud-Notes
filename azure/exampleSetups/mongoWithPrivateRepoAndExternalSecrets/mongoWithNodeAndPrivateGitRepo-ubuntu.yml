@@ -6,7 +6,43 @@ packages:
   - curl
   - gnupg-agent
   - software-properties-common
-  - npm
+    # Dependancies for puppeteer
+  - fonts-liberation
+  - libappindicator3-1
+  - libasound2
+  - libatk-bridge2.0-0
+  - libatk1.0-0
+  - libc6
+  - libcairo2
+  - libcups2
+  - libdbus-1-3
+  - libexpat1
+  - libfontconfig1
+  - libgbm1
+  - libgcc1
+  - libglib2.0-0
+  - libgtk-3-0
+  - libnspr4
+  - libnss3
+  - libpango-1.0-0
+  - libpangocairo-1.0-0
+  - libstdc++6
+  - libx11-6
+  - libx11-xcb1
+  - libxcb1
+  - libxcomposite1
+  - libxcursor1
+  - libxdamage1
+  - libxext6
+  - libxfixes3
+  - libxi6
+  - libxrandr2
+  - libxrender1
+  - libxss1
+  - libxtst6
+  - lsb-release
+  - wget
+  - xdg-utils
 
 #Public key for github.com 
 #Generate with ssh-keyscan github.com >> github.com.pub
@@ -74,6 +110,14 @@ runcmd:
   - apt-get install -y mongodb-org
   - systemctl start mongod
   - systemctl enable mongod
+    # Installing chrome stable
+  - curl -fsSL https://dl.google.com/linux/linux_signing_key.pub -o /key.txt
+  - apt-key add /key.txt
+  - rm /key.txt
+  - >-
+    echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list
+  - apt-get update -y
+  - apt-get install google-chrome-stable libxss1
     #Adding ssh key to host keys
   - eval "$(ssh-agent -s)"
   - ssh-add /etc/ssh/ssh_host_rsa_key
