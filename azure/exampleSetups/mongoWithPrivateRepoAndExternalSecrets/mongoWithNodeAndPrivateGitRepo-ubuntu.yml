@@ -110,14 +110,6 @@ runcmd:
   - apt-get install -y mongodb-org
   - systemctl start mongod
   - systemctl enable mongod
-    # Installing chrome stable
-  - curl -fsSL https://dl.google.com/linux/linux_signing_key.pub -o /key.txt
-  - apt-key add /key.txt
-  - rm /key.txt
-  - >-
-    echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list
-  - apt-get update -y
-  - apt-get install google-chrome-stable libxss1
     #Adding ssh key to host keys
   - eval "$(ssh-agent -s)"
   - ssh-add /etc/ssh/ssh_host_rsa_key
