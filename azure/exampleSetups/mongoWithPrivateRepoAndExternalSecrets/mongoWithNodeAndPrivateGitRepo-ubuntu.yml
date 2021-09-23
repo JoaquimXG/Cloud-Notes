@@ -66,9 +66,9 @@ runcmd:
   - curl -sL "https://deb.nodesource.com/setup_14.x" | sudo -E bash -
   - apt-get install -y nodejs
     #Setting up mongodb
-  - curl -fsSL https://www.mongodb.org/static/pgp/server-4.4.asc -o /home/azureuser/key.txt
-  - apt-key add /home/azureuser/key.txt
-  - rm /home/azureuser/key.txt
+  - curl -fsSL https://www.mongodb.org/static/pgp/server-4.4.asc -o /key.txt
+  - apt-key add /key.txt
+  - rm /key.txt
   - add-apt-repository "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.4 multiverse"
   - apt-get update -y
   - apt-get install -y mongodb-org
@@ -81,7 +81,7 @@ runcmd:
   - git clone git@github.com:JoaquimXG/podcolours.co.uk.git app
   - cd app
     #Pulling secrets file (Stored in Azure)
-  - curl "https://xjgpersonalstorage.blob.core.windows.net/envvars/.env?sp=r&st=2021-09-23T10:55:10Z&se=2021-09-23T18:55:10Z&spr=https&sv=2020-08-04&sr=b&sig=SH4N%2BWzhQ633ev4mhLNpj1AvqgT6LghiE2VbgsUZ9aw%3D" -o .env
+  - curl "https://xjgpersonalstorage.blob.core.windows.net/envvars/.env?sp=r&st=2021-09-23T14:11:22Z&se=2021-09-23T22:11:22Z&spr=https&sv=2020-08-04&sr=b&sig=M7T4jEfPFVwPKvhCM4dBdXvkmYgypC73gpIOsHG0XCg%3D" -o .env
     # Creating Mongo Admin User
   - chmod +x ./createMongoUsers.sh
   - bash createMongoUsers.sh
