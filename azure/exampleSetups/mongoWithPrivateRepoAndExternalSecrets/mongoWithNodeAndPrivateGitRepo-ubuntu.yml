@@ -116,8 +116,12 @@ runcmd:
     #Pulling repo
   - git clone git@github.com:JoaquimXG/podcolours.co.uk.git app
   - cd app
+    # Pulling certificates (Stored in Azure)
+  - curl "https://xjgpersonalstorage.blob.core.windows.net/podcerts/privkey.pem?sp=r&st=2021-09-23T22:20:46Z&se=2021-09-24T06:20:46Z&spr=https&sv=2020-08-04&sr=b&sig=nRjEAujmU3hEHPAYHoA4IXvk3IDO13%2FOpta0DxUPZPE%3D" -o certificates/privkey.pem
+  - curl "https://xjgpersonalstorage.blob.core.windows.net/podcerts/fullchain.pem?sp=r&st=2021-09-23T22:20:32Z&se=2021-09-24T06:20:32Z&spr=https&sv=2020-08-04&sr=b&sig=nUH1A4qunfWTSezC853jaHiWTy0Y0f8ztaLjeeitazQ%3D" -o certificates/fullchain.pem
+  - chmod 644 certificates/*
     #Pulling secrets file (Stored in Azure)
-  - curl "https://xjgpersonalstorage.blob.core.windows.net/envvars/.env?sp=r&st=2021-09-23T14:11:22Z&se=2021-09-23T22:11:22Z&spr=https&sv=2020-08-04&sr=b&sig=M7T4jEfPFVwPKvhCM4dBdXvkmYgypC73gpIOsHG0XCg%3D" -o .env
+  - curl "https://xjgpersonalstorage.blob.core.windows.net/envvars/prod.env?sp=r&st=2021-09-23T22:20:11Z&se=2021-09-24T06:20:11Z&spr=https&sv=2020-08-04&sr=b&sig=m80Fd%2BPsj1TzA%2BHHs0M6GCQiPLVKA8jR0OtNzgSZWHg%3D" -o .env
     # Creating Mongo Admin User
   - chmod +x ./createMongoUsers.sh
   - bash createMongoUsers.sh
